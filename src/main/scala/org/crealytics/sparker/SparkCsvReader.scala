@@ -11,6 +11,7 @@ import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SQLContext, SaveMode}
 import org.apache.spark.{SparkConf, SparkContext}
+import org.crealytics.exceptiontype.FileReadException
 import org.crealytics.traitcode.FileReader
 import org.crealytics.utility.{ReadFile, Utilites}
 
@@ -48,7 +49,7 @@ class SparkCsvReader(confPath:String) extends FileReader[Option[String]]{
       saveFile(confInfo.getString("spark_csv.outPath"))
     }
     else{
-      println("file does not exist")
+      throw new FileReadException("file does not exists")
     }
   }
 
