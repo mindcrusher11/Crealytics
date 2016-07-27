@@ -7,9 +7,9 @@ object MainClass {
 
   def main(args:Array[String]): Unit =
   {
-    val data = new SparkCsvReader("/home/gaur/Desktop/config.conf")
+    val data = new SparkCsvReader("src/main/resources/config.conf")
     println(data.confInfo.getString("spark_csv.masterUrl"))
 
-    data.processFile("/home/gaur/Desktop/config.conf")
+    data.processFile("")
   }
 }

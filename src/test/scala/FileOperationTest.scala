@@ -14,13 +14,13 @@ class FileOperationTest extends TestCase{
   var confInfo:config.Config = _
 
   override def setUp {
-    fileReader = new SparkCsvReader("/home/gaur/Desktop/config.conf")
+    fileReader = new SparkCsvReader("src/main/resources/config.conf")
     confInfo = fileReader.confInfo
   }
 
   def testOneTopping {
 
-    fileReader.processFile("/home/gaur/Desktop/config.conf")
+    fileReader.processFile(confInfo.getString("spark_csv.testFilePath"))
 
     val csvReader = fileReader.sqlContext.read.format(confInfo.getString("spark_csv.readFormat"))
       .option("header", confInfo.getString("spark_csv.isReadCsvHeader")) // Use first line of all files as header
