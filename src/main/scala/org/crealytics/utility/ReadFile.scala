@@ -3,7 +3,7 @@ package org.crealytics.utility
 
 import com.typesafe.config.ConfigFactory
 import com.github.tototoshi.csv._
-
+import java.nio.file.{Paths, Files}
 
 
 /**
@@ -15,8 +15,9 @@ object ReadFile {
     val reader = CSVReader.open(filePath)
   }
 
-  def isFileExist(filePath:String): Boolean ={
-      true
+  def isLocalFileExist(filePath:String): Boolean ={
+    Files.exists(Paths.get(filePath))
   }
+
 
 }

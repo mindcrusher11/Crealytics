@@ -1,6 +1,7 @@
 package org.crealytics.sparker
 
 import com.typesafe.config.ConfigFactory
+import org.crealytics.utility.ReadFile
 import org.junit.Test
 import junit.framework.TestCase
 import org.junit.Assert._
@@ -18,22 +19,27 @@ class FileOperationTest extends TestCase{
     confInfo = fileReader.confInfo
   }
 
-  def checkFileEquality {
+  def testcheckFileEquality {
 
-    fileReader.processFile(confInfo.getString("spark_csv.testFilePath"))
+    if(ReadFile.isLocalFileExist(confInfo.getString("spark_csv.testFilePath"))) {
+      fileReader.processFile(confInfo.getString("spark_csv.testFilePath"))
 
-    val csvReader = fileReader.sqlContext.read.format(confInfo.getString("spark_csv.readFormat"))
-      .option("header", confInfo.getString("spark_csv.isReadCsvHeader")) // Use first line of all files as header
-      .option("inferSchema", confInfo.getString("spark_csv.isCsvInferSchema")) // Automatically infer data types
-      .option("delimiter",confInfo.getString("spark_csv.csvDelimiter")) // defining delimiter to be used to seprate columns in csv file
-      .option("dateFormat",confInfo.getString("spark_csv.colDateFormat")) // date format to be used
+      val csvReader = fileReader.sqlContext.read.format(confInfo.getString("spark_csv.readFormat"))
+        .option("header", confInfo.getString("spark_csv.isReadCsvHeader")) // Use first line of all files as header
+        .option("inferSchema", confInfo.getString("spark_csv.isCsvInferSchema")) // Automatically infer data types
+        .option("delimiter", confInfo.getString("spark_csv.csvDelimiter")) // defining delimiter to be used to seprate columns in csv file
+        .option("dateFormat", confInfo.getString("spark_csv.colDateFormat")) // date format to be used
 
 
-    val testDataFrame = csvReader.load(confInfo.getString("spark_csv.testFilePath"))
+      val testDataFrame = csvReader.load(confInfo.getString("spark_csv.testFilePath"))
 
-    val savedDataFrame = csvReader.load(confInfo.getString("spark_csv.outPath") + "/part-00000")
+      val savedDataFrame = csvReader.load(confInfo.getString("spark_csv.outPath") + "/part-00000")
 
-    assertEquals(savedDataFrame.count(), testDataFrame.intersect(savedDataFrame).count())
+      assertEquals(savedDataFrame.count(), testDataFrame.intersect(savedDataFrame).count())
+    }
+    else{
+      assertEquals(1, 0)
+    }
   }
 
 }
