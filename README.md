@@ -5,6 +5,7 @@ Apache Spark version 1.6.0,
 Scala 2.10,
 Sbt 
 
+#Please enter csvFilePath for input csv file and outPath for output file and testFilePath for sample test file path
 configuration file is there in Resources folder with all details,any path can be given for configuration file.
 
 spark_csv{

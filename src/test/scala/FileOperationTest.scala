@@ -18,7 +18,7 @@ class FileOperationTest extends TestCase{
     confInfo = fileReader.confInfo
   }
 
-  def testOneTopping {
+  def checkFileEquality {
 
     fileReader.processFile(confInfo.getString("spark_csv.testFilePath"))
 
